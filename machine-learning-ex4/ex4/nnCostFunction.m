@@ -64,7 +64,7 @@ Theta2_grad = zeros(size(Theta2));
 
 
 X = [ones(m, 1) X];
-
+%%Y Will have the same of number of labels as rows
 y = eye(num_labels)(y,:);
 
 a2 = sigmoid(X * Theta1');
@@ -73,17 +73,27 @@ a2 = [ones(m, 1) a2];
 
 hx = sigmoid(a2 * Theta2');
 
+%J Cost without Regression
+
+J_partial = 0;
+
 %Version with loop
 
 for k=1:num_labels
 
- J = J + (-y(:,k)' * log(hx(:,k)) - (1 - y(:,k))' * log(1 - hx(:,k)));
+ J_partial = J_partial + (-y(:,k)' * log(hx(:,k)) - (1 - y(:,k))' * log(1 - hx(:,k)));
 
 endfor
 
-J = J ./ m;
+J_partial = J_partial ./ m;
 
-%Version without loop
+%%Regularization Cost Added
+%%In this case we ignore the first column of each Theta
+J_regularization = (lambda/(2*m)) * (sum(sum(Theta1(:,2:end).^2)) + sum(sum(Theta2(:,2:end).^2)));
+
+J = J_partial + J_regularization;
+
+%Version without loop for cost without regularization cost
 %J = ((1/m) * sum(sum((-y .* log(hx))-((1-y) .* log(1-hx)))))
 
 
