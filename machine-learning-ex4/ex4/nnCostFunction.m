@@ -63,8 +63,28 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 
+X = [ones(m, 1) X];
 
+y = eye(num_labels)(y,:);
 
+a2 = sigmoid(X * Theta1');
+
+a2 = [ones(m, 1) a2];
+
+hx = sigmoid(a2 * Theta2');
+
+%Version with loop
+
+for k=1:num_labels
+
+ J = J + (-y(:,k)' * log(hx(:,k)) - (1 - y(:,k))' * log(1 - hx(:,k)));
+
+endfor
+
+J = J ./ m;
+
+%Version without loop
+%J = ((1/m) * sum(sum((-y .* log(hx))-((1-y) .* log(1-hx)))))
 
 
 
