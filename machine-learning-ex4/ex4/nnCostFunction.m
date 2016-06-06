@@ -73,7 +73,7 @@ a2 = [ones(m, 1) a2];
 
 hx = sigmoid(a2 * Theta2');
 
-%J Cost without Regression
+%J Cost without Regularization
 
 J_partial = 0;
 
