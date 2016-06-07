@@ -121,8 +121,13 @@ delta1 = error2' * X;
 %At the end this delta2 and delta3 will become our new theta. That´s why size(delta1)==size(Theta1)
 %size(delta2)==size(Theta2)
 
-Theta1_grad = (1/m) * delta1;
-Theta2_grad = (1/m) * delta2;
+%We dont consider the first column of Theta for the regularization
+
+Theta1(:,1) = zeros(size(Theta1,1),1);
+Theta2(:,1) = zeros(size(Theta2,1),1);
+
+Theta1_grad = ((1/m) * delta1) + ((lambda/m) * Theta1);
+Theta2_grad = ((1/m) * delta2) + ((lambda/m) * Theta2);
 
 
 
