@@ -73,11 +73,15 @@ X = [ones(m, 1) X];
 %%Y Will have the same of number of labels as rows
 y = eye(num_labels)(y,:);
 
-a2 = sigmoid(X * Theta1');
+z2 = X * Theta1';
+
+a2 = sigmoid(z2);
 
 a2 = [ones(m, 1) a2];
 
-hx = sigmoid(a2 * Theta2');
+z3 = a2 * Theta2';
+
+hx = sigmoid(z3);
 
 %J Cost without Regularization
 
@@ -103,9 +107,22 @@ J = J_partial + J_regularization;
 %J = ((1/m) * sum(sum((-y .* log(hx))-((1-y) .* log(1-hx)))))
 
 
+error3 = hx - y;
 
+%We delete from error2, the column  sub 0, which in Octave is the first one. 
 
+error2 = (error3 * Theta2(:, 2:end)) .* sigmoidGradient(z2);
 
+%Delta2 has as output 10 x 26. The layer 3, has 10 outputs and 26 inputs. Bias added
+delta2 = error3' * a2;
+%Delta1 has as output 25 x 401. The layer 2, has 25 outputs and 401 inputs
+delta1 = error2' * X;
+
+%At the end this delta2 and delta3 will become our new theta. That´s why size(delta1)==size(Theta1)
+%size(delta2)==size(Theta2)
+
+Theta1_grad = (1/m) * delta1;
+Theta2_grad = (1/m) * delta2;
 
 
 
