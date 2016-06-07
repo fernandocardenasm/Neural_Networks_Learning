@@ -62,6 +62,12 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+%Basic Structure
+%a1 = X
+%z2 = a1 * Theta1'
+%a2 = sigmoid(z2)
+%z3 = a2 * Theta'
+%a3 = sigmoid(z3) = hx
 
 X = [ones(m, 1) X];
 %%Y Will have the same of number of labels as rows
